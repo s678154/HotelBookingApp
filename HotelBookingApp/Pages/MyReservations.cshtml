@@ -1,0 +1,69 @@
+﻿@page
+@model HotelBookingApp.Pages.MyReservationsModel
+@using HotelBookingApp.Models
+@{
+    ViewData["Title"] = "Mine reservasjoner";
+}
+
+<h2>Mine reservasjoner</h2>
+
+@if (!Model.Reservations.Any())
+{
+    <div class="alert alert-info">
+        Du har ingen reservasjoner.
+    </div>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Booking‐ID</th>
+                <th>Romtype</th>
+                <th>Fra</th>
+                <th>Til</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var r in Model.Reservations)
+            {
+                <tr>
+                    <td>@r.Id</td>
+                    <td>@r.Room.RoomType</td>
+                    <td>@r.FromDate.ToString("yyyy-MM-dd")</td>
+                    <td>@r.ToDate.ToString("yyyy-MM-dd")</td>
+                    <td>
+                        @switch (r.Status)
+                        {
+                            case ReservationStatus.Active:
+                                <span class="badge bg-success">Aktiv</span>
+                                ;
+                                break;
+                            case ReservationStatus.Cancelled:
+                                <span class="badge bg-secondary">Avbestilt</span>
+                                ;
+                                break;
+                            case ReservationStatus.Completed:
+                                <span class="badge bg-dark">Fullført</span>
+                                ;
+                                break;
+                        }
+                    </td>
+                    <td>
+                        @if (r.Status == ReservationStatus.Active)
+                        {
+                            <form method="post" asp-page-handler="Cancel" class="d-inline">
+                                <input type="hidden" name="id" value="@r.Id" />
+                                <button type="submit" class="btn btn-sm btn-danger">
+                                    Avbestill
+                                </button>
+                            </form>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

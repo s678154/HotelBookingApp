@@ -1,0 +1,130 @@
+﻿@page
+@model HotelBookingApp.Pages.AvailableRoomsModel
+@{
+    ViewData["Title"] = "Ledige rom";
+
+}
+
+
+<!--Bruker bootstrap for å gjøre det litt finere men har akkurat samme funksjon som det litt lengre nede-->
+<div class="p-5 mb-4 bg-light rounded-3 text-center">
+    <h1 class="display-6">Velkommen til HotelBookingApp!</h1>
+    <p class="lead">Søk etter ledige rom i ditt ønskede tidsrom.</p>
+</div>
+
+
+<div class="card mb-4">
+    <div class="card-header">
+        <h5 class="mb-0">Finn ledige rom</h5>
+    </div>
+    <div class="card-body">
+        <form method="post" class="row gy-3">
+            <div class="col-md-3">
+                <label asp-for="FromDate" class="form-label">Fra dato</label>
+                <input asp-for="FromDate" type="date" class="form-control" />
+            </div>
+            <div class="col-md-3">
+                <label asp-for="ToDate" class="form-label">Til dato</label>
+                <input asp-for="ToDate" type="date" class="form-control" />
+            </div>
+            <div class="col-md-3">
+                <label asp-for="RoomType" class="form-label">Romtype</label>
+                <select asp-for="RoomType" class="form-select">
+                    <option value="">— Alle —</option>
+                    @foreach (var t in Model.AllRoomTypes)
+                    {
+                        <option>@t</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label asp-for="MinBeds" class="form-label">Min senger</label>
+                <select asp-for="MinBeds" class="form-select">
+                    <option value="">— Alle —</option>
+                    @foreach (var b in Model.AllBedCounts)
+                    {
+                        <option>@b</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-1 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">Søk</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!-- GAMMEL VERSJON, LITT MER BASIC -->
+@* 
+<h2>Finn ledige rom</h2>
+<form method="post" class="search-form">
+  <div>
+    <label asp-for="FromDate">Fra dato</label>
+    <input asp-for="FromDate" type="date" />
+  </div>
+  <div>
+    <label asp-for="ToDate">Til dato</label>
+    <input asp-for="ToDate" type="date" />
+  </div>
+  <div>
+    <label asp-for="RoomType">Romtype</label>
+    <select asp-for="RoomType">
+      <option value="">— Alle —</option>
+      @foreach (var t in Model.AllRoomTypes)
+      {
+        <option value="@t">@t</option>
+      }
+    </select>
+  </div>
+  <div>
+    <label asp-for="MinBeds">Min. antall senger</label>
+    <select asp-for="MinBeds">
+      <option value="">— Alle —</option>
+      @foreach (var b in Model.AllBedCounts)
+      {
+        <option value="@b">@b</option>
+      }
+    </select>
+  </div>
+  <div style="flex:0 0 120px;">
+    <label>&nbsp;</label>
+    <button type="submit">Søk</button>
+  </div>
+</form>
+*@
+
+
+
+@if (!Model.AvailableRooms.Any())
+{
+  <p>Fant ingen ledige rom for de valgte kriteriene.</p>
+}
+else
+{
+    <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
+        @foreach (var room in Model.AvailableRooms)
+        {
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">@room.RoomType</h5>
+                        <p class="card-text mb-4">
+                            <strong>Senger:</strong> @room.NumberOfBeds<br />
+                            <strong>Pris/natt:</strong> kr @room.PricePerNight                           
+                        </p>
+                        <a asp-page="BookRoom"
+                            asp-route-RoomId="@room.Id"
+                           asp-route-From="@(Model.FromDate.ToString("yyyy-MM-dd"))"
+                           asp-route-To="@(Model.ToDate.ToString("yyyy-MM-dd"))"
+                            class="btn btn-success mt-auto">
+                                Bestill
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+                                       
+    </div>
+}
+

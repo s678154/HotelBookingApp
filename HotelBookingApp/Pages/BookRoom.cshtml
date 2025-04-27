@@ -1,0 +1,44 @@
+﻿@page
+@model HotelBookingApp.Pages.BookRoomModel
+@{
+    ViewData["Title"] = "Book rom";
+}
+
+<h2>Book rom @Model.Room?.RoomType</h2>
+
+<form method="post">
+    <!--Disse må sendes videre til post-->
+    <input type="hidden" asp-for="RoomId" />
+    <input type="hidden" asp-for="From" />
+    <input type="hidden" asp-for="To" />
+
+    <!-- Validering -->
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <dl>
+        <dt>Romtype</dt>
+        <dd>@Model.Room?.RoomType</dd>
+
+        <dt>Fra</dt>
+        <dd>@Model.From.ToString("yyyy-MM-dd")</dd>
+
+        <dt>Til</dt>
+        <dd>@Model.To.ToString("yyyy-MM-dd")</dd>
+
+        <dt>Pris per natt</dt>
+        <dd>kr @Model.Room?.PricePerNight</dd>
+    </dl>
+
+    <button type="submit" class="btn btn-primary">Bekreft bestilling</button>
+
+    <a asp-page="AvailableRooms"
+       asp-route-From="@Model.From:yyyy-MM-dd"
+       asp-route-To="@Model.To:yyyy-MM-dd"
+       class="btn btn-secondary">
+        Avbryt
+    </a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
