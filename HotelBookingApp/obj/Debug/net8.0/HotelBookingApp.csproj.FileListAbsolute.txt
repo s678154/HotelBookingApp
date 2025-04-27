@@ -144,3 +144,4 @@ C:\selmasMappe\HotelBookingApp\HotelBookingApp\obj\Debug\net8.0\refint\HotelBook
 C:\selmasMappe\HotelBookingApp\HotelBookingApp\obj\Debug\net8.0\HotelBookingApp.pdb
 C:\selmasMappe\HotelBookingApp\HotelBookingApp\obj\Debug\net8.0\HotelBookingApp.genruntimeconfig.cache
 C:\selmasMappe\HotelBookingApp\HotelBookingApp\obj\Debug\net8.0\ref\HotelBookingApp.dll
+C:\selmasMappe\HotelBookingApp\HotelBookingApp\obj\Debug\net8.0\HotelBookingApp.sourcelink.json

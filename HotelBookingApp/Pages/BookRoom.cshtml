@@ -29,6 +29,23 @@
         <dd>kr @Model.Room?.PricePerNight</dd>
     </dl>
 
+    <!-- For å vise totalpris for hotelloppholdet -->
+    @{
+        var nights = (Model.To - Model.From).Days;
+        var total = nights * Model.Room!.PricePerNight;
+    }
+
+    <dl class="booking-summary">
+        <dt>Pris per natt</dt>
+        <dd>kr @Model.Room!.PricePerNight</dd>
+
+        <dt>Antall netter</dt>
+        <dd>@nights</dd>
+
+        <dt>Totalpris</dt>
+        <dd><strong>kr @total</strong></dd>
+    </dl>
+
     <button type="submit" class="btn btn-primary">Bekreft bestilling</button>
 
     <a asp-page="AvailableRooms"
